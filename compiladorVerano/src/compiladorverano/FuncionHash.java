@@ -15,7 +15,7 @@ public class FuncionHash {
     
     public int hash(String cadena)
     {
-         
+          
     
        long suma=0;
        int posicionRegistro=0;

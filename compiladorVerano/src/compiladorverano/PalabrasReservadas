@@ -1,8 +1,7 @@
 int
-double
-float
+double  
+float   
 String
-chart
 boolean
 if
 for
@@ -13,5 +12,4 @@ case
 break
 true
 false
-comment
-define
+final

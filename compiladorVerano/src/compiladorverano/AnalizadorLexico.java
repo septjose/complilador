@@ -5,160 +5,146 @@
  */
 package compiladorverano;
 
-
 /**
  *
- * @author juanjesuspadrondiaz
+ * @author José Alberto
  */
-
 public class AnalizadorLexico {
-    
+
     boolean auxCadena = false;
     boolean auxComentario = false;
     int numRenglonActual = 0;
+     //GUI tabla = new GUI(); 
     //String codigo;
-    
-        AnalizadorLexico(String codigo) {
+
+    AnalizadorLexico(String codigo) {
         String renglonCodigo[] = null;
         String tokenArray[] = null;
-        
         renglonCodigo = codigo.split("\n");
-        
+
         for (String renglon : renglonCodigo) {
-            tokenArray=renglon.split(" ");
-            numRenglonActual++;            
+            tokenArray = renglon.split(" ");
+            numRenglonActual++;
             for (String token : tokenArray) {
                 analizar(token);
             }
-             if(auxComentario)
-            {
-                auxComentario=false;
+            if (auxComentario) {
+                auxComentario = false;
                 System.out.println("Es comentario");
             }
         }
     }
-    
-     public void analizar(String token){
-         
+
+    public void analizar(String token) {
+
         Automatas automata = new Automatas();
         FuncionHash hash = new FuncionHash();
-        Archivo archivo = new Archivo();
+        Arch archivo = new Arch();
         TablaSimbolos tablaSimbolos;
-        
+
         boolean tokenValido = false;
-                
-                if(archivo.Buscar(token,"src/compiladorVerano/PalabrasReservadas") && !auxCadena && !auxComentario)
-                    {
-                        tokenValido = true;
-                        hash.hash(token);
-                        System.out.println("Es PR" + token + hash.hash(token));
-                    }
-                
-                if(archivo.Buscar(token,"src/compiladorVerano/Operadores") && !auxCadena && !auxComentario)
-                    {
-                        tokenValido = true;
-                        System.out.println("Es Op");
-                    }
-        
-                    if(automata.AutomataValorInt(token) && !auxCadena && !auxComentario)
-                    {
-                        tokenValido = true;
-                        System.out.println("Es entero");
-                    }
-                    
-                   if(!tokenValido && automata.AutomataValorDouble(token) && !auxCadena && !auxComentario)
-                    {
-                        tokenValido = true;
-                        System.out.println("Es decimal");
-                    }
-                   
-                   
-                   
-                   
-                   
-                   
-                   
-                    if((!tokenValido && automata.AutomataCadena(token, 0)==1) || automata.AutomataCadena(token, 0)==2 || auxCadena && !auxComentario)
-                    {
-                        System.out.println(token);
-                        System.out.println(automata.AutomataCadena(token, 0));
-                        if(auxCadena){
-                            
-                            if(automata.AutomataCadena(token, 1)==1)
+
+        if (archivo.Buscar(token, "src/compiladorVerano/PalabrasReservadas") && !auxCadena && !auxComentario) {
+            tokenValido = true;
+            hash.hash(token);
+            
+            if(token.equalsIgnoreCase("int"))
+                        {
+                            CompiladorVerano.interfaz.tabla( new TablaSimbolos(token, "entero", "4","" ,"PR"));
+                        } 
+                         if(token.equalsIgnoreCase("double"))
                             {
-                                System.out.println("entro");
-                                auxCadena = false;
-                                tokenValido = true;
-                            }
-                            else
-                                if(automata.AutomataCadena(token, 1)==0)
-                                {
-                                    auxCadena = false;
-                                }
-                                else 
-                                    if(automata.AutomataCadena(token,1)==2)
-                                        auxCadena = true;
-                        }
-
-                        
-                        
-                        if(!tokenValido)
-                        if(!auxCadena){
-                            System.out.println(automata.AutomataCadena(token, 0));
-                            if(automata.AutomataCadena(token, 0)==2)
+                                CompiladorVerano.interfaz.tabla( new TablaSimbolos(token, "decimal", "6","" ,"PR"));
+                            }  
+                          if(token.equalsIgnoreCase("float"))
                             {
-                                auxCadena = true;
-                                System.out.println(automata.AutomataCadena(token, 0));
+                                CompiladorVerano.interfaz.tabla( new TablaSimbolos(token, "decimal", "6","" ,"PR"));       
                             }
-                            else{
+                           if(token.equalsIgnoreCase("String"))
+                        {
+                            CompiladorVerano.interfaz.tabla( new TablaSimbolos(token, "Caadena", "16","" ,"PR"));
+                        } 
+            
+            
+            //System.out.println("Es PR" + token + hash.hash(token));
+        }
 
-                            tokenValido = true;
-                            auxCadena = false;
-                            System.out.println("Es cadena");                   
-                            }
-                        }
-                        
-                        
-                        
+        if (archivo.Buscar(token, "src/compiladorVerano/Operadores") && !auxCadena && !auxComentario) {
+            tokenValido = true;
+            CompiladorVerano.interfaz.tabla( new TablaSimbolos(token, "", "","" ,"OP"));
+        }
 
-                        
-                        
-                        
-                        
-                    }
-                    
-                    
-                    if(!tokenValido && automata.AutomataIdentificador(token) && !auxCadena && !auxComentario)
-                    {
-                        tokenValido = true;
-                        System.out.println("Es identificador");
-                    }
-                    
-                     if((!tokenValido && automata.AutomataComentarios(token, 0) && !auxCadena) || auxComentario )
-                    {
-                        
-                        System.out.println("enyra");
-                        
-                        if(auxComentario){
-                            automata.AutomataComentarios(token, 1);
+        if (automata.AutomataValorInt(token) && !auxCadena && !auxComentario) {
+            tokenValido = true;
+            CompiladorVerano.interfaz.tabla( new TablaSimbolos(token, "Entero", "4","" ,"DI"));
+        }
+
+        if (!tokenValido && automata.AutomataValorDouble(token) && !auxCadena && !auxComentario) {
+            tokenValido = true;
+            CompiladorVerano.interfaz.tabla( new TablaSimbolos(token, "Flotante", "6","" ,"DI"));
+        }
+
+        if ((!tokenValido && automata.AutomataCadena(token, 0) == 1) || automata.AutomataCadena(token, 0) == 2 || auxCadena && !auxComentario) {
+            //System.out.println(token);
+            //System.out.println(automata.AutomataCadena(token, 0));
+            if (auxCadena) {
+
+                if (automata.AutomataCadena(token, 1) == 1) {
+                    //System.out.println("entro");
+                    auxCadena = false;
+                    tokenValido = true;
+                    CompiladorVerano.interfaz.tabla( new TablaSimbolos(token, "Cadena", "16","" ,"CAD"));
+                } else {
+                    if (automata.AutomataCadena(token, 1) == 0) {
+                        auxCadena = false;
+                    } else {
+                        if (automata.AutomataCadena(token, 1) == 2) {
+                            auxCadena = true;
                         }
-                        else
-                            auxComentario=true;
-                        tokenValido = true;
-                           
                     }
-                     
-                     
-                     
-                     
-                     
-                     
-             /*        if(!tokenValido && token.codePointAt(0)==59);
+                }
+            }
+
+            if (!tokenValido) {
+                if (!auxCadena) {
+                    //System.out.println(automata.AutomataCadena(token, 0));
+                    if (automata.AutomataCadena(token, 0) == 2) {
+                        auxCadena = true;
+                        //System.out.println(automata.AutomataCadena(token, 0));
+                    } else {
+
+                        tokenValido = true;
+                        auxCadena = false;
+                         CompiladorVerano.interfaz.tabla( new TablaSimbolos(token, "Cadena", "16","" ,"CAD"));
+                    }
+                }
+            }
+
+        }
+
+        if (!tokenValido && automata.AutomataIdentificador(token) && !auxCadena && !auxComentario) {
+            tokenValido = true;
+             CompiladorVerano.interfaz.tabla( new TablaSimbolos(token, "", "","" ,"ID"));
+        }
+
+        if ((!tokenValido && automata.AutomataComentarios(token, 0) && !auxCadena) || auxComentario) {
+
+            //System.out.println("enyra");
+
+            if (auxComentario) {
+                automata.AutomataComentarios(token, 1);
+            } else {
+                auxComentario = true;
+            }
+            tokenValido = true;
+
+        }
+
+        /*        if(!tokenValido && token.codePointAt(0)==59);
                     {
                         tokenValido = true;
                         System.out.println("Es del");
                     }
-            */
-    
-}
+         */
+    }
 }

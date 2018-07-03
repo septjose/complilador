@@ -12,9 +12,8 @@ import java.io.FileReader;
  *
  * @author José Alberto
  */
-public class Archivo {
-
-    public boolean Buscar(String cadena, String ruta) {
+public class Arch {
+        public boolean Buscar(String cadena, String ruta) {
         boolean bandera = false;
         try {
             FileReader lector = new FileReader(ruta);

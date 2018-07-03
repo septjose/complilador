@@ -12,10 +12,10 @@ package compiladorverano;
 public class TablaSimbolos {
     
     String token,tipo,valor,categoria;
-    int longitud;
+    String longitud;
     
     
-    public TablaSimbolos(String token, String tipo, String valor, String categoria, int longitud) {
+    public TablaSimbolos(String token, String tipo, String longitud, String valor, String categoria) {
         this.token = token;
         this.tipo = tipo;
         this.valor = valor;
@@ -56,11 +56,11 @@ public class TablaSimbolos {
         this.categoria = categoria;
     }
 
-    public int getLongitud() {
+    public String getLongitud() {
         return longitud;
     }
 
-    public void setLongitud(int longitud) {
+    public void setLongitud(String longitud) {
         this.longitud = longitud;
     }
     

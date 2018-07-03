@@ -6,7 +6,6 @@
 package compiladorverano;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -14,7 +13,8 @@ import javax.swing.table.DefaultTableModel;
  * @author juanjesuspadrondiaz
  */
 public class GUI extends javax.swing.JFrame {
-    static DefaultTableModel model;
+    DefaultTableModel model;
+    ArrayList<String> token;
 
     /**
      * Creates new form Interfaz
@@ -160,8 +160,9 @@ public class GUI extends javax.swing.JFrame {
 
     private void btnCompilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompilarActionPerformed
         // TODO add your handling code here:
-        //model = (DefaultTableModel) tblSimbolos.getModel();
-        String cabezera[] = new String[]{"Nombre", "Tipo", "Categoria", "Valor","holis"}; // Nombre de las columnas de la tabla
+        jtxtErrores.setText("");
+        token = new ArrayList<>();
+        String cabezera[] = new String[]{"Token", "Tipo", "Longitud", "Valor","Categoria"}; // Nombre de las columnas de la tabla
         String datos[][] = {};
         DefaultTableModel modelo = new DefaultTableModel(datos, cabezera);  // Modelo de la tabla
         tblSimbolos.setModel(modelo);
@@ -173,32 +174,33 @@ public class GUI extends javax.swing.JFrame {
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         
-        
-        insertar(new TablaSimbolos("int", "", "longitud", "valor", "categoria"));
-
-        
 
         // TODO add your handling code here:
     }//GEN-LAST:event_btnBorrarActionPerformed
 
-    public void tabla(TablaSimbolos tablaSimbolos) {
+    public void tabla(TablaSimbolos registro) {
         this.model = (DefaultTableModel) tblSimbolos.getModel();
         Object[] tblModel = new Object[5];
-           // tblSimbolos.setModel(model);
-            tblModel[0] = tablaSimbolos.getToken();
-            tblModel[1] = tablaSimbolos.getTipo();
-            tblModel[2] = tablaSimbolos.getLongitud();
-            tblModel[3] = tablaSimbolos.getValor();
-            tblModel[4] = tablaSimbolos.getCategoria();
-            System.out.println(tblModel[0]);
-            GUI.model.addRow(tblModel);
+
+        if(token.isEmpty() || !token.contains(registro.token))
+        {
+            token.add(registro.token);
+            
+            tblModel[0] = registro.getToken();
+            tblModel[1] = registro.getTipo();
+            tblModel[2] = registro.getLongitud();
+            tblModel[3] = registro.getValor();
+            tblModel[4] = registro.getCategoria();
+            model.addRow(tblModel);
             tblSimbolos.setModel(model);
+        }
     }
     
-    public void insertar(TablaSimbolos tablaSimbolos){
-         tabla(new TablaSimbolos(tablaSimbolos.token, tablaSimbolos.tipo, tablaSimbolos.longitud, tablaSimbolos.valor, tablaSimbolos.categoria));
+    public void error(String error)
+    {
+        jtxtErrores.setText(jtxtErrores.getText()+"\n"+error);
     }
-    
+
     /**
      * @param args the command line arguments
      */

@@ -12,8 +12,10 @@ package compiladorverano;
 public class AnalizadorLexico {
 
     boolean auxCadena = false;
+    String auxTokenCadena = "";
     boolean auxComentario = false;
     int numRenglonActual = 0;
+    String error = "";
      //GUI tabla = new GUI(); 
     //String codigo;
 
@@ -26,11 +28,11 @@ public class AnalizadorLexico {
             tokenArray = renglon.split(" ");
             numRenglonActual++;
             for (String token : tokenArray) {
-                analizar(token);
+                    analizar(token);
             }
             if (auxComentario) {
                 auxComentario = false;
-                System.out.println("Es comentario");
+               // System.out.println("Es comentario");
             }
         }
     }
@@ -85,15 +87,15 @@ public class AnalizadorLexico {
         }
 
         if ((!tokenValido && automata.AutomataCadena(token, 0) == 1) || automata.AutomataCadena(token, 0) == 2 || auxCadena && !auxComentario) {
-            //System.out.println(token);
-            //System.out.println(automata.AutomataCadena(token, 0));
+            
+            System.out.println(auxTokenCadena);
             if (auxCadena) {
-
+                auxTokenCadena = auxTokenCadena+" "+token;
                 if (automata.AutomataCadena(token, 1) == 1) {
-                    //System.out.println("entro");
                     auxCadena = false;
                     tokenValido = true;
-                    CompiladorVerano.interfaz.tabla( new TablaSimbolos(token, "Cadena", "16","" ,"CAD"));
+                    CompiladorVerano.interfaz.tabla( new TablaSimbolos(auxTokenCadena, "Cadena", "16","" ,"CAD"));
+                    auxTokenCadena = "";
                 } else {
                     if (automata.AutomataCadena(token, 1) == 0) {
                         auxCadena = false;
@@ -106,20 +108,21 @@ public class AnalizadorLexico {
             }
 
             if (!tokenValido) {
+               
                 if (!auxCadena) {
-                    //System.out.println(automata.AutomataCadena(token, 0));
+                     auxTokenCadena = auxTokenCadena+" "+token;
                     if (automata.AutomataCadena(token, 0) == 2) {
                         auxCadena = true;
-                        //System.out.println(automata.AutomataCadena(token, 0));
                     } else {
 
                         tokenValido = true;
                         auxCadena = false;
-                         CompiladorVerano.interfaz.tabla( new TablaSimbolos(token, "Cadena", "16","" ,"CAD"));
+                       
+                         CompiladorVerano.interfaz.tabla( new TablaSimbolos(auxTokenCadena, "Cadena", "16","" ,"CAD"));
+                          auxTokenCadena = "";
                     }
                 }
             }
-
         }
 
         if (!tokenValido && automata.AutomataIdentificador(token) && !auxCadena && !auxComentario) {
@@ -139,12 +142,23 @@ public class AnalizadorLexico {
             tokenValido = true;
 
         }
-
-        /*        if(!tokenValido && token.codePointAt(0)==59);
+        
+        
+            /*if(!tokenValido && token.codePointAt(0)==59 && !auxCadena && !auxComentario)
                     {
                         tokenValido = true;
-                        System.out.println("Es del");
-                    }
-         */
+                        CompiladorVerano.interfaz.tabla( new TablaSimbolos(token, "", "","" ,"DEL"));
+                    }*/
+        
+        
+        if(!tokenValido && !auxCadena && !token.equalsIgnoreCase("")){
+            error = "Error en la línea "+ numRenglonActual;
+            CompiladorVerano.interfaz.error(error);
+            //System.out.println("Error en linea "+ numRenglonActual);
+        }
+            
+
+
+         
     }
 }

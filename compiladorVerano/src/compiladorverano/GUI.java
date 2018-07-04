@@ -161,6 +161,8 @@ public class GUI extends javax.swing.JFrame {
     private void btnCompilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompilarActionPerformed
         // TODO add your handling code here:
         jtxtErrores.setText("");
+        ArchivoAleatorio aA = new ArchivoAleatorio();
+        aA.limpiarArchivo();
         token = new ArrayList<>();
         String cabezera[] = new String[]{"Token", "Tipo", "Longitud", "Valor","Categoria"}; // Nombre de las columnas de la tabla
         String datos[][] = {};
@@ -173,8 +175,14 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCompilarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        
-
+        jtxtCuaderno.setText("");
+        jtxtErrores.setText("");
+        ArchivoAleatorio aA = new ArchivoAleatorio();
+        aA.limpiarArchivo();
+        String cabezera[] = new String[]{"Token", "Tipo", "Longitud", "Valor","Categoria"}; // Nombre de las columnas de la tabla
+        String datos[][] = {};
+        DefaultTableModel modelo = new DefaultTableModel(datos, cabezera);  // Modelo de la tabla
+        tblSimbolos.setModel(modelo);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnBorrarActionPerformed
 

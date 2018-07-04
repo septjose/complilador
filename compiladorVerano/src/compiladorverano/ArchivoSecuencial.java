@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author admin
+ * @author joseAlberto
  */
 public class ArchivoSecuencial {
     

@@ -67,13 +67,13 @@ public class GUI extends javax.swing.JFrame {
 
         tblSimbolos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Token", "Tipo", "Longitud", "Valor", "Categoria"
+                "Token", "Tipo", "Longitud", "Valor", "Categoria", "Identificador"
             }
         ));
         jScrollPane3.setViewportView(tblSimbolos);
@@ -164,7 +164,7 @@ public class GUI extends javax.swing.JFrame {
         ArchivoAleatorio aA = new ArchivoAleatorio();
         aA.limpiarArchivo();
         token = new ArrayList<>();
-        String cabezera[] = new String[]{"Token", "Tipo", "Longitud", "Valor","Categoria"}; // Nombre de las columnas de la tabla
+        String cabezera[] = new String[]{"Token", "Tipo", "Longitud", "Valor","Categoria","Identificador"}; // Nombre de las columnas de la tabla
         String datos[][] = {};
         DefaultTableModel modelo = new DefaultTableModel(datos, cabezera);  // Modelo de la tabla
         tblSimbolos.setModel(modelo);
@@ -179,7 +179,7 @@ public class GUI extends javax.swing.JFrame {
         jtxtErrores.setText("");
         ArchivoAleatorio aA = new ArchivoAleatorio();
         aA.limpiarArchivo();
-        String cabezera[] = new String[]{"Token", "Tipo", "Longitud", "Valor","Categoria"}; // Nombre de las columnas de la tabla
+        String cabezera[] = new String[]{"Token", "Tipo", "Longitud", "Valor","Categoria","Identificador"}; // Nombre de las columnas de la tabla
         String datos[][] = {};
         DefaultTableModel modelo = new DefaultTableModel(datos, cabezera);  // Modelo de la tabla
         tblSimbolos.setModel(modelo);
@@ -188,7 +188,7 @@ public class GUI extends javax.swing.JFrame {
 
     public void tabla(TablaSimbolos registro) {
         this.model = (DefaultTableModel) tblSimbolos.getModel();
-        Object[] tblModel = new Object[5];
+        Object[] tblModel = new Object[6];
 
         if(token.isEmpty() || !token.contains(registro.token))
         {
@@ -199,6 +199,7 @@ public class GUI extends javax.swing.JFrame {
             tblModel[2] = registro.getLongitud();
             tblModel[3] = registro.getValor();
             tblModel[4] = registro.getCategoria();
+            tblModel[5] = registro.getIdentificador();
             model.addRow(tblModel);
             tblSimbolos.setModel(model);
         }

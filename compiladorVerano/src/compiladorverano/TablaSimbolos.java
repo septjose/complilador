@@ -12,20 +12,30 @@ package compiladorverano;
 public class TablaSimbolos {
     
     String token,tipo,valor,categoria;
-    String longitud;
+    String longitud, identificador;
     
     
-    public TablaSimbolos(String token, String tipo, String longitud, String valor, String categoria) {
+    public TablaSimbolos(String token, String tipo, String longitud, String valor, String categoria, String identificador) {
         this.token = token;
         this.tipo = tipo;
         this.valor = valor;
         this.categoria = categoria;
         this.longitud = longitud;
+        this.identificador = identificador;
     }
 
     public String getToken() {
         return token;
     }
+
+    public String getIdentificador() {
+        return identificador;
+    }
+
+    public void setIdentificador(String identificador) {
+        this.identificador = identificador;
+    }
+    
 
     public void setToken(String token) {
         this.token = token;

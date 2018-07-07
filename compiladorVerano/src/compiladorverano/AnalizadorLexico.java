@@ -24,7 +24,7 @@ public class AnalizadorLexico {
     //String codigo;
 
     AnalizadorLexico(String codigo) {
-
+        codigo = codigo.replace("\t" ," ");
         renglonCodigo = codigo.split("\n");
 
         for (String renglon : renglonCodigo) {
@@ -50,63 +50,91 @@ public class AnalizadorLexico {
         Arch archivo = new Arch();
         TablaSimbolos tablaSimbolos;
         String tipo = "";
+        String identificador = "";
         String longitud = "";
 
         boolean tokenValido = false;
 
-        if (archivo.Buscar(token, "src/compiladorVerano/PalabrasReservadas") && !auxCadena && !auxComentario) {
+        if (archivo.Buscar(token, "src/Archivos/compiladorVerano/PalabrasReservadas") && !auxCadena && !auxComentario) {
             tokenValido = true;
             hash.hash(token);
 
-            if (token.equalsIgnoreCase("int")) {
-                CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "4", "", "PR"));
+            if (!token.equalsIgnoreCase("int") && !token.equalsIgnoreCase("double") && !token.equalsIgnoreCase("float") && !token.equalsIgnoreCase("String") && !token.equalsIgnoreCase("boolean")) {
+                if (token.equalsIgnoreCase("int")) {
+                    CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "4", "", "PR", ""));
+                    aA.cargarArchivo();
+                    aA.escribirElementos(token, "", "4", "", "PR", "");
+                }
+                if (token.equalsIgnoreCase("double")) {
+                    CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "6", "", "PR", ""));
+                    aA.cargarArchivo();
+                    aA.escribirElementos(token, "", "6", "", "PR", "");
+                }
+                if (token.equalsIgnoreCase("float")) {
+                    CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "6", "", "PR", ""));
+                    aA.cargarArchivo();
+                    aA.escribirElementos(token, "", "6", "", "PR", "");
+                }
+                if (token.equalsIgnoreCase("String")) {
+                    CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "16", "", "PR", ""));
+                    aA.cargarArchivo();
+                    aA.escribirElementos(token, "", "16", "", "PR", "");
+                }
+            } else 
+                CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "", "", "PR", ""));
                 aA.cargarArchivo();
-                aA.escribirElementos(token, "", "4", "", "PR");
-            }
-            if (token.equalsIgnoreCase("double")) {
-                CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "6", "", "PR"));
-                aA.cargarArchivo();
-                aA.escribirElementos(token, "", "6", "", "PR");
-            }
-            if (token.equalsIgnoreCase("float")) {
-                CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "6", "", "PR"));
-                aA.cargarArchivo();
-                aA.escribirElementos(token, "", "6", "", "PR");
-            }
-            if (token.equalsIgnoreCase("String")) {
-                CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "16", "", "PR"));
-                aA.cargarArchivo();
-                aA.escribirElementos(token, "", "16", "", "PR");
-            }
+                aA.escribirElementos(token, "", "", "", "PR", "");
+            
 
             //System.out.println("Es PR" + token + hash.hash(token));
         }
 
-        if (archivo.Buscar(token, "src/compiladorVerano/Operadores") && !auxCadena && !auxComentario) {
+        if (archivo.Buscar(token, "src/Archivos/compiladorVerano/Operadores") && !auxCadena && !auxComentario) {
             tokenValido = true;
-            CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "", "", "OP"));
+            CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "", "", "OP", ""));
             aA.cargarArchivo();
-            aA.escribirElementos(token, "", "", "", "OP");
+            aA.escribirElementos(token, "", "", "", "OP", "");
         }
-        if (archivo.Buscar(token, "src/compiladorVerano/OperadoresLogicos") && !auxCadena && !auxComentario) {
+        if (archivo.Buscar(token, "src/Archivos/compiladorVerano/OperadoresLogicos") && !auxCadena && !auxComentario) {
             tokenValido = true;
-            CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "", "", "OL"));
+            CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "", "", "OL", ""));
             aA.cargarArchivo();
-            aA.escribirElementos(token, "", "", "", "OL");
+            aA.escribirElementos(token, "", "", "", "OP", "");
+        }
+        
+        if (archivo.Buscar(token, "src/Archivos/compiladorVerano/Agrupacion") && !auxCadena && !auxComentario) {
+            tokenValido = true;
+            CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "", "", "OA", ""));
+            aA.cargarArchivo();
+            aA.escribirElementos(token, "", "", "", "OP", "");
+        }
+        
+        if (archivo.Buscar(token, "src/Archivos/compiladorVerano/Asignacion") && !auxCadena && !auxComentario) {
+            tokenValido = true;
+            CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "", "", "OP", ""));
+            aA.cargarArchivo();
+            aA.escribirElementos(token, "", "", "", "OP", "");
+        }
+        
+        if (archivo.Buscar(token, "src/Archivos/compiladorVerano/OperadoresRelaciones") && !auxCadena && !auxComentario) {
+            tokenValido = true;
+            CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "", "", "OP", ""));
+            aA.cargarArchivo();
+            aA.escribirElementos(token, "", "", "", "OP", "");
         }
 
         if (automata.AutomataValorInt(token) && !auxCadena && !auxComentario) {
             tokenValido = true;
-            CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "Entero", "4", "", "DI"));
+            CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "Entero", "4", "", "DI", ""));
             aA.cargarArchivo();
-            aA.escribirElementos(token, "Entero", "4", "", "DI");
+            aA.escribirElementos(token, "Entero", "4", "", "DI", "");
         }
 
         if (!tokenValido && automata.AutomataValorDouble(token) && !auxCadena && !auxComentario) {
             tokenValido = true;
-            CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "Decimal", "6", "", "DI"));
+            CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "Decimal", "6", "", "DI", ""));
             aA.cargarArchivo();
-            aA.escribirElementos(token, "Decimal", "6", "", "DI");
+            aA.escribirElementos(token, "Decimal", "6", "", "DI", "");
         }
 
         if ((!tokenValido && automata.AutomataCadena(token, 0) == 1) || automata.AutomataCadena(token, 0) == 2 || auxCadena && !auxComentario) {
@@ -118,70 +146,62 @@ public class AnalizadorLexico {
                 if (automata.AutomataCadena(token, 1) == 1) {
                     auxCadena = false;
                     tokenValido = true;
-                    CompiladorVerano.interfaz.tabla(new TablaSimbolos(auxTokenCadena, "Cadena", "16", "", "CAD"));
+                    CompiladorVerano.interfaz.tabla(new TablaSimbolos(auxTokenCadena, "Cadena", "16", "", "CAD", ""));
                     aA.cargarArchivo();
-                    aA.escribirElementos(auxTokenCadena, "Cadena", "16", "", "CAD");
+                    aA.escribirElementos(auxTokenCadena, "Cadena", "16", "", "CAD", "");
                     auxTokenCadena = "";
                 } else if (automata.AutomataCadena(token, 1) == 0) {
                     auxCadena = false;
                     bandera = true;
-                    
+
                 } else if (automata.AutomataCadena(token, 1) == 2) {
-                    System.out.println("Entra");
-                        System.out.println(i);
-                        System.out.println(tokenArray.length);
-                        
-                        if(tokenArray.length-1==i)
-                        {
-                            System.out.println("entrooooooooooo");
-                            System.out.println(token);
-                            tokenValido = false;
-                            auxCadena = true;
-                            bandera = true;
-                            
-                            error = "Error en la línea " + numRenglonActual;
-                            CompiladorVerano.interfaz.error(error);
-                            auxTokenCadena = "";
-                        }
-                        else
-                        
-                        
-                    auxCadena = true;
+                   // System.out.println("Entra");
+                    //System.out.println(i);
+                    //System.out.println(tokenArray.length);
+
+                    if (tokenArray.length - 1 == i) {
+                        //System.out.println("entrooooooooooo");
+                        //System.out.println(token);
+                        tokenValido = false;
+                        auxCadena = true;
+                        bandera = true;
+
+                        error = "Error en la línea " + numRenglonActual;
+                        CompiladorVerano.interfaz.error(error);
+                        auxTokenCadena = "";
+                    } else {
+                        auxCadena = true;
+                    }
                 }
             }
-            if(!bandera)
-            if (!tokenValido) {
+            if (!bandera) {
+                if (!tokenValido) {
 
-                if (!auxCadena) {
-                    auxTokenCadena = auxTokenCadena + " " + token;
-                    if (automata.AutomataCadena(token, 0) == 2) {
-                        
-                        
-                        System.out.println("Entra");
-                        System.out.println(i);
-                        System.out.println(tokenArray.length);
-                        
-                     if(tokenArray.length-1==i)
-                        {
-                            System.out.println("yrah");
-                            tokenValido = false;
+                    if (!auxCadena) {
+                        auxTokenCadena = auxTokenCadena + " " + token;
+                        if (automata.AutomataCadena(token, 0) == 2) {
+
+                            //System.out.println("Entra");
+                            //System.out.println(i);
+                            //System.out.println(tokenArray.length);
+                            if (tokenArray.length - 1 == i) {
+                                //System.out.println("yrah");
+                                tokenValido = false;
+                                auxCadena = false;
+                                auxTokenCadena = "";
+                            } else {
+                                auxCadena = true;
+                            }
+
+                        } else {
+                            tokenValido = true;
                             auxCadena = false;
+
+                            CompiladorVerano.interfaz.tabla(new TablaSimbolos(auxTokenCadena, "Cadena", "16", "", "CAD", ""));
+                            aA.cargarArchivo();
+                            aA.escribirElementos(auxTokenCadena, "Cadena", "16", "", "CAD", "");
                             auxTokenCadena = "";
                         }
-                     else
-                        
-                        auxCadena = true;
-                        
-                        
-                        
-                    } else {
-                        tokenValido = true;
-                        auxCadena = false;
-
-                        CompiladorVerano.interfaz.tabla(new TablaSimbolos(auxTokenCadena, "Cadena", "16", "", "CAD"));
-                        aA.cargarArchivo();
-                        aA.escribirElementos(auxTokenCadena, "Cadena", "16", "", "CAD");
-                        auxTokenCadena = "";
                     }
                 }
             }
@@ -192,11 +212,10 @@ public class AnalizadorLexico {
 
             if (i != 0) {
                 if (tokenArray[i - 1].equalsIgnoreCase("int")) {
-                    
+
                     tipo = "Entero";
                     longitud = "4";
                 }
-
                 if (tokenArray[i - 1].equalsIgnoreCase("double")) {
                     tipo = "Decimal";
                     longitud = "6";
@@ -211,10 +230,22 @@ public class AnalizadorLexico {
                 }
             }
 
+            if (i > 1) {
+                if (tokenArray[i - 2].equalsIgnoreCase("final")) {
+                    identificador = "Constante";
+
+                } else {
+                    identificador = "Variable";
+                }
+            } else {
+                identificador = "Variable";
+            }
+
             //System.out.println(tokenArray[i-1]);
-            CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, tipo, longitud, "", "ID"));
+            CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, tipo, longitud, "", "ID", identificador));
             aA.cargarArchivo();
-            aA.escribirElementos(token, tipo, longitud, "", "ID");
+            aA.escribirElementos(token, tipo, longitud, "", "ID", "");
+            //System.out.println(identificador);
         }
 
         if ((!tokenValido && automata.AutomataComentarios(token, 0) && !auxCadena) || auxComentario) {
@@ -230,9 +261,9 @@ public class AnalizadorLexico {
 
         if (!tokenValido && token.equalsIgnoreCase(";") && !auxCadena && !auxComentario) {
             tokenValido = true;
-            CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "", "", "DEL"));
+            CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "", "", "DEL", ""));
             aA.cargarArchivo();
-            aA.escribirElementos(token, "", "", "", "DEL");
+            aA.escribirElementos(token, "", "", "", "DEL", "");
         }
 
         if (!tokenValido && !auxCadena && !token.equalsIgnoreCase("")) {
@@ -240,6 +271,5 @@ public class AnalizadorLexico {
             CompiladorVerano.interfaz.error(error);
             //System.out.println("Error en linea "+ numRenglonActual);
         }
-
     }
 }

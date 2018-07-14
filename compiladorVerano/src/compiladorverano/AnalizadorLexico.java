@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package compiladorverano;
-
 /**
  *
  * @author José Alberto
@@ -48,14 +47,14 @@ public class AnalizadorLexico {
         Automatas automata = new Automatas();
         FuncionHash hash = new FuncionHash();
         Arch archivo = new Arch();
-        TablaSimbolos tablaSimbolos;
+        //TablaSimbolos tablaSimbolos;
         String tipo = "";
         String identificador = "";
         String longitud = "";
 
         boolean tokenValido = false;
 
-        if (archivo.Buscar(token, "src/Archivos/compiladorVerano/PalabrasReservadas") && !auxCadena && !auxComentario) {
+        if (archivo.Buscar(token, "src/Archivos/PalabrasReservadas") && !auxCadena && !auxComentario) {
             tokenValido = true;
             hash.hash(token);
 
@@ -89,34 +88,34 @@ public class AnalizadorLexico {
             //System.out.println("Es PR" + token + hash.hash(token));
         }
 
-        if (archivo.Buscar(token, "src/Archivos/compiladorVerano/Operadores") && !auxCadena && !auxComentario) {
+        if (archivo.Buscar(token, "src/Archivos/Operadores") && !auxCadena && !auxComentario) {
             tokenValido = true;
             CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "", "", "OP", ""));
             aA.cargarArchivo();
             aA.escribirElementos(token, "", "", "", "OP", "");
         }
-        if (archivo.Buscar(token, "src/Archivos/compiladorVerano/OperadoresLogicos") && !auxCadena && !auxComentario) {
+        if (archivo.Buscar(token, "src/Archivos/OperadoresLogicos") && !auxCadena && !auxComentario) {
             tokenValido = true;
             CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "", "", "OL", ""));
             aA.cargarArchivo();
             aA.escribirElementos(token, "", "", "", "OP", "");
         }
         
-        if (archivo.Buscar(token, "src/Archivos/compiladorVerano/Agrupacion") && !auxCadena && !auxComentario) {
+        if (archivo.Buscar(token, "src/Archivos/Agrupacion") && !auxCadena && !auxComentario) {
             tokenValido = true;
             CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "", "", "OA", ""));
             aA.cargarArchivo();
             aA.escribirElementos(token, "", "", "", "OP", "");
         }
         
-        if (archivo.Buscar(token, "src/Archivos/compiladorVerano/Asignacion") && !auxCadena && !auxComentario) {
+        if (archivo.Buscar(token, "src/Archivos/Asignacion") && !auxCadena && !auxComentario) {
             tokenValido = true;
             CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "", "", "OP", ""));
             aA.cargarArchivo();
             aA.escribirElementos(token, "", "", "", "OP", "");
         }
         
-        if (archivo.Buscar(token, "src/Archivos/compiladorVerano/OperadoresRelaciones") && !auxCadena && !auxComentario) {
+        if (archivo.Buscar(token, "src/Archivos/OperadoresRelaciones") && !auxCadena && !auxComentario) {
             tokenValido = true;
             CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "", "", "OP", ""));
             aA.cargarArchivo();

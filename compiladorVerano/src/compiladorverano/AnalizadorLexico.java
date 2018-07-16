@@ -4,6 +4,10 @@
  * and open the template in the editor.
  */
 package compiladorverano;
+
+import java.util.ArrayList;
+import java.util.Objects;
+
 /**
  *
  * @author José Alberto
@@ -15,18 +19,21 @@ public class AnalizadorLexico {
     boolean auxComentario = false;
     int numRenglonActual = 0;
     String error = "";
-    String renglonCodigo[] = null;
+    String renglonesCodigo[] = null;
     String tokenArray[] = null;
     int i = 0;
+    
     ArchivoAleatorio aA = new ArchivoAleatorio();
+    ArrayList<ArrayList<String>> entrada = new ArrayList<>();
     //GUI tabla = new GUI(); 
     //String codigo;
 
     AnalizadorLexico(String codigo) {
         codigo = codigo.replace("\t" ," ");
-        renglonCodigo = codigo.split("\n");
+        renglonesCodigo = codigo.split("\n");
 
-        for (String renglon : renglonCodigo) {
+        for (String renglon : renglonesCodigo) {
+            this.entrada.add(new ArrayList<>());
             tokenArray = renglon.split(" ");
             numRenglonActual++;
             i = 0;
@@ -40,6 +47,9 @@ public class AnalizadorLexico {
                 // System.out.println("Es comentario");
             }
         }
+        
+        entrada.get(numRenglonActual-1).add("$");
+        new AnalizadorSintactico(entrada);
     }
 
     public void analizar(String token) {
@@ -63,28 +73,52 @@ public class AnalizadorLexico {
                     CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "4", "", "PR", ""));
                     aA.cargarArchivo();
                     aA.escribirElementos(token, "", "4", "", "PR", "");
+                    entrada.get(numRenglonActual-1).add("int");
                 }
                 if (token.equalsIgnoreCase("double")) {
                     CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "6", "", "PR", ""));
                     aA.cargarArchivo();
                     aA.escribirElementos(token, "", "6", "", "PR", "");
+                    entrada.get(numRenglonActual-1).add("double");
                 }
                 if (token.equalsIgnoreCase("float")) {
                     CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "6", "", "PR", ""));
                     aA.cargarArchivo();
                     aA.escribirElementos(token, "", "6", "", "PR", "");
+                    entrada.get(numRenglonActual-1).add("float");
                 }
                 if (token.equalsIgnoreCase("String")) {
                     CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "16", "", "PR", ""));
                     aA.cargarArchivo();
                     aA.escribirElementos(token, "", "16", "", "PR", "");
+                    entrada.get(numRenglonActual-1).add("String");
+                }
+                if (token.equalsIgnoreCase("boolean")) {
+                    CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "2", "", "PR", ""));
+                    aA.cargarArchivo();
+                    aA.escribirElementos(token, "", "16", "", "PR", "");
+                    entrada.get(numRenglonActual-1).add("boolean");
+                }
+                if (token.equalsIgnoreCase("true")) {
+                    CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "booleano", "2", "", "PR", ""));
+                    aA.cargarArchivo();
+                    aA.escribirElementos(token, "", "16", "", "PR", "");
+                    entrada.get(numRenglonActual-1).add("booleano");
+                }
+                if (token.equalsIgnoreCase("false")) {
+                    CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "booleano", "2", "", "PR", ""));
+                    aA.cargarArchivo();
+                    aA.escribirElementos(token, "", "16", "", "PR", "");
+                    entrada.get(numRenglonActual-1).add("booleano");
                 }
             } else 
-                CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "", "", "PR", ""));
+                {
+                    CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "", "", "PR", ""));
+                    entrada.get(numRenglonActual-1).add(token);
+                }   
                 aA.cargarArchivo();
                 aA.escribirElementos(token, "", "", "", "PR", "");
-            
-
+                
             //System.out.println("Es PR" + token + hash.hash(token));
         }
 
@@ -93,12 +127,14 @@ public class AnalizadorLexico {
             CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "", "", "OP", ""));
             aA.cargarArchivo();
             aA.escribirElementos(token, "", "", "", "OP", "");
+            entrada.get(numRenglonActual-1).add(token);
         }
         if (archivo.Buscar(token, "src/Archivos/OperadoresLogicos") && !auxCadena && !auxComentario) {
             tokenValido = true;
             CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "", "", "OL", ""));
             aA.cargarArchivo();
             aA.escribirElementos(token, "", "", "", "OP", "");
+            entrada.get(numRenglonActual-1).add(token);
         }
         
         if (archivo.Buscar(token, "src/Archivos/Agrupacion") && !auxCadena && !auxComentario) {
@@ -106,6 +142,7 @@ public class AnalizadorLexico {
             CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "", "", "OA", ""));
             aA.cargarArchivo();
             aA.escribirElementos(token, "", "", "", "OP", "");
+            entrada.get(numRenglonActual-1).add(token);
         }
         
         if (archivo.Buscar(token, "src/Archivos/Asignacion") && !auxCadena && !auxComentario) {
@@ -113,6 +150,7 @@ public class AnalizadorLexico {
             CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "", "", "OP", ""));
             aA.cargarArchivo();
             aA.escribirElementos(token, "", "", "", "OP", "");
+            entrada.get(numRenglonActual-1).add(token);
         }
         
         if (archivo.Buscar(token, "src/Archivos/OperadoresRelaciones") && !auxCadena && !auxComentario) {
@@ -120,6 +158,7 @@ public class AnalizadorLexico {
             CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "", "", "OP", ""));
             aA.cargarArchivo();
             aA.escribirElementos(token, "", "", "", "OP", "");
+            entrada.get(numRenglonActual-1).add(token);
         }
 
         if (automata.AutomataValorInt(token) && !auxCadena && !auxComentario) {
@@ -127,6 +166,7 @@ public class AnalizadorLexico {
             CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "Entero", "4", "", "DI", ""));
             aA.cargarArchivo();
             aA.escribirElementos(token, "Entero", "4", "", "DI", "");
+            entrada.get(numRenglonActual-1).add("entero");
         }
 
         if (!tokenValido && automata.AutomataValorDouble(token) && !auxCadena && !auxComentario) {
@@ -134,6 +174,7 @@ public class AnalizadorLexico {
             CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "Decimal", "6", "", "DI", ""));
             aA.cargarArchivo();
             aA.escribirElementos(token, "Decimal", "6", "", "DI", "");
+            entrada.get(numRenglonActual-1).add("decimal");
         }
 
         if ((!tokenValido && automata.AutomataCadena(token, 0) == 1) || automata.AutomataCadena(token, 0) == 2 || auxCadena && !auxComentario) {
@@ -148,6 +189,7 @@ public class AnalizadorLexico {
                     CompiladorVerano.interfaz.tabla(new TablaSimbolos(auxTokenCadena, "Cadena", "16", "", "CAD", ""));
                     aA.cargarArchivo();
                     aA.escribirElementos(auxTokenCadena, "Cadena", "16", "", "CAD", "");
+                    entrada.get(numRenglonActual-1).add("cadena");
                     auxTokenCadena = "";
                 } else if (automata.AutomataCadena(token, 1) == 0) {
                     auxCadena = false;
@@ -199,6 +241,7 @@ public class AnalizadorLexico {
                             CompiladorVerano.interfaz.tabla(new TablaSimbolos(auxTokenCadena, "Cadena", "16", "", "CAD", ""));
                             aA.cargarArchivo();
                             aA.escribirElementos(auxTokenCadena, "Cadena", "16", "", "CAD", "");
+                            entrada.get(numRenglonActual-1).add("cadena");
                             auxTokenCadena = "";
                         }
                     }
@@ -227,6 +270,10 @@ public class AnalizadorLexico {
                     tipo = "Cadena";
                     longitud = "16";
                 }
+               if (tokenArray[i - 1].equalsIgnoreCase("boolean")) {
+                    tipo = "Booleano";
+                    longitud = "16";
+                }
             }
 
             if (i > 1) {
@@ -244,6 +291,7 @@ public class AnalizadorLexico {
             CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, tipo, longitud, "", "ID", identificador));
             aA.cargarArchivo();
             aA.escribirElementos(token, tipo, longitud, "", "ID", "");
+            entrada.get(numRenglonActual-1).add("id");
             //System.out.println(identificador);
         }
 
@@ -263,10 +311,11 @@ public class AnalizadorLexico {
             CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "", "", "DEL", ""));
             aA.cargarArchivo();
             aA.escribirElementos(token, "", "", "", "DEL", "");
+            entrada.get(numRenglonActual-1).add(token);
         }
 
         if (!tokenValido && !auxCadena && !token.equalsIgnoreCase("")) {
-            error = "Error en la línea " + numRenglonActual;
+            error = "Error en la línea: " + numRenglonActual +"; Token: " +token;
             CompiladorVerano.interfaz.error(error);
             //System.out.println("Error en linea "+ numRenglonActual);
         }

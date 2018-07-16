@@ -20,5 +20,6 @@ public class CompiladorVerano {
     public static void main(String[] args) {
          
         interfaz.setVisible(true);
+        //new AnalizadorSintactico().analizar();
     }
 }

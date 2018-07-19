@@ -7,6 +7,7 @@ package compiladorverano;
 
 import java.util.ArrayList;
 import java.util.Stack;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -17,10 +18,10 @@ public class GUI extends javax.swing.JFrame {
     DefaultTableModel model;
     ArrayList<String> token;
     
-        private final String[][] Matriz
+     private final String[][] Matriz
             = {{"", "class", "id", "begin", "end", ";", "{","}","if","(",")","else","while","for","++","--","entero","cadena","decimal","booleano","=","int","double","float","String","boolean","final","+","-","*","/","%","==","!=","<=","<",">=",">","&&","||"},
-           {"programa", "class id cuerpo_programa", "404", "404",  "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404"},
-           {"cuerpo_programa", "404", "404", "begin codigo end",  "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404"},
+            {"programa", "class id cuerpo_programa", "404", "404",  "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404"},
+            {"cuerpo_programa", "404", "404", "begin codigo end",  "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404"},
            {"codigo", "404", "proposicion_punto_y_coma codigo_prima_punto_y_coma", "404",  "", "404", "404", "", "proposicion_llave codigo_prima_llave", "404", "404", "404", "proposicion_llave codigo_prima_llave", "proposicion_llave codigo_prima_llave", "404", "404", "404", "404", "404", "404", "404", "proposicion_punto_y_coma codigo_prima_punto_y_coma", "proposicion_punto_y_coma codigo_prima_punto_y_coma", "proposicion_punto_y_coma codigo_prima_punto_y_coma", "proposicion_punto_y_coma codigo_prima_punto_y_coma", "proposicion_punto_y_coma codigo_prima_punto_y_coma", "proposicion_punto_y_coma codigo_prima_punto_y_coma", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404"},
            {"codigo_prima_punto_y_coma", "404", "404", "404",  "404", "; codigo", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404"},
            {"codigo_prima_llave", "404", "404", "404",  "404", "404", "404", "} codigo", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404"},
@@ -43,7 +44,8 @@ public class GUI extends javax.swing.JFrame {
            {"incremento", "404", "404", "404",  "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "++", "--", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404"},
            {"cuerpo_for", "404", "404", "404",  "404", "404", "{ codigo", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404"},
            {"ciclo_while", "404", "404", "404",  "404", "404", "404", "404", "404", "404", "404", "404", "while condicion_while", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404"},
-           {"condicion_while", "404", "404", "404",  "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "condicion cuerpo_while2", "condicion cuerpo_while2", "condicion cuerpo_while2", "condicion cuerpo_while2", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404"},
+           {"condicion_while", "404", "404", "404",  "404", "404", "404", "404", "404", "cond_while cuerpo_while2", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404"},
+           {"cond_while", "404", "404", "404",  "404", "404", "404", "404", "404", "( condicion", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404"},
            {"cuerpo_while", "404", "404", "404",  "404", "404", "{ codigo", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404"},
            {"cuerpo_while2", "404", "404", "404",  "404", "404", "404", "404", "404", "404", ") cuerpo_while", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404"},
            {"valor", "404", "404", "404",  "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "entero", "cadena", "decimal", "booleano", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404"},
@@ -68,6 +70,7 @@ public class GUI extends javax.swing.JFrame {
            {"condicion_compuesta", "404", "condicion_prima condicion_compuesta_prima", "404",  "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "condicion_prima condicion_compuesta_prima", "condicion_prima condicion_compuesta_prima", "condicion_prima condicion_compuesta_prima", "condicion_prima condicion_compuesta_prima", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404"},
            {"condicion_compuesta_prima", "404", "condicion_prima condicion_compuesta_prima", "404",  "404", "404", "404", "404", "404", "404", "", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "404", "operLog condicion", "operLog condicion"}
             };
+
     
     
 
@@ -86,20 +89,19 @@ public class GUI extends javax.swing.JFrame {
         DefaultTableModel modelo = new DefaultTableModel(datos, encabezado);  // Modelo de la tabla
         tblTAS.setModel(modelo);
         
-        /*this.model = (DefaultTableModel) tblSimbolos.getModel();
-        Object[] tblModel = new Object[this.Matriz.length];
-            int i = 0;
-        for (String [] string : this.Matriz) {
-            i = 0;
-            for (String string1 : string) {
-                tblModel[i] = string;   
-            tblModel[i] = string1;
-            model.addRow(tblModel);
-            tblTAS.setModel(model);
-            i++;
-            }
-
-        }*/
+        this.model = (DefaultTableModel) tblTAS.getModel();
+        
+        for (int i = 0 ; i< numfilas;i++)
+        {
+            System.arraycopy(this.Matriz[i], 0, encabezado, 0, numcolumnas);
+            
+        this.model = (DefaultTableModel) tblTAS.getModel();
+        this.model.addRow(encabezado);  
+        tblTAS.setModel(model);
+            
+        }
+        tblTAS.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+            
         
     }
 
@@ -247,12 +249,9 @@ public class GUI extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(49, 49, 49)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jScrollPane7)
-                                .addContainerGap())
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jScrollPane3)
-                                .addContainerGap())))
+                            .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGap(73, 73, 73)
                         .addComponent(btnCompilar, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)

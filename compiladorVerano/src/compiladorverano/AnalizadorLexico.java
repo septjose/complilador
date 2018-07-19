@@ -6,7 +6,6 @@
 package compiladorverano;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  *
@@ -68,7 +67,8 @@ public class AnalizadorLexico {
             tokenValido = true;
             hash.hash(token);
 
-            if (!token.equalsIgnoreCase("int") && !token.equalsIgnoreCase("double") && !token.equalsIgnoreCase("float") && !token.equalsIgnoreCase("String") && !token.equalsIgnoreCase("boolean")) {
+            if (token.equalsIgnoreCase("int") || token.equalsIgnoreCase("double") || token.equalsIgnoreCase("float") || token.equalsIgnoreCase("String") || token.equalsIgnoreCase("boolean")) 
+            {
                 if (token.equalsIgnoreCase("int")) {
                     CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "4", "", "PR", ""));
                     aA.cargarArchivo();
@@ -115,9 +115,12 @@ public class AnalizadorLexico {
                 {
                     CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "", "", "PR", ""));
                     entrada.get(numRenglonActual-1).add(token);
+                    //System.out.println(token);
+                    aA.cargarArchivo();
+                    aA.escribirElementos(token, "", "", "", "PR", "");
                 }   
-                aA.cargarArchivo();
-                aA.escribirElementos(token, "", "", "", "PR", "");
+                //aA.cargarArchivo();
+                //aA.escribirElementos(token, "", "", "", "PR", "");
                 
             //System.out.println("Es PR" + token + hash.hash(token));
         }

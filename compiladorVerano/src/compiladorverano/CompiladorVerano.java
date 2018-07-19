@@ -10,10 +10,11 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author juanjesuspadrondiaz
+ * @author José Alberto
  */
 public class CompiladorVerano {
     static GUI interfaz = new GUI();
+    
     /**
      * @param args the command line arguments
      */

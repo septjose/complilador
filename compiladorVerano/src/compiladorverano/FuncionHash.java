@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author juanjesuspadrondiaz
+ * @author José Alberto
  */
 public class FuncionHash {
     

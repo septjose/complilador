@@ -77,7 +77,16 @@ public class GUI extends javax.swing.JFrame {
     public GUI() {
         initComponents();
         
-        this.model = (DefaultTableModel) tblTAS.getModel();
+        int numfilas = this.Matriz.length; //número de las filas
+        int numcolumnas = this.Matriz[0].length;//número de las columnas
+        String encabezado[] = new String[numcolumnas];
+        System.arraycopy(this.Matriz[0], 0, encabezado, 0, numcolumnas);
+
+        String datos[][] = {};
+        DefaultTableModel modelo = new DefaultTableModel(datos, encabezado);  // Modelo de la tabla
+        tblTAS.setModel(modelo);
+        
+        /*this.model = (DefaultTableModel) tblSimbolos.getModel();
         Object[] tblModel = new Object[this.Matriz.length];
             int i = 0;
         for (String [] string : this.Matriz) {
@@ -90,7 +99,7 @@ public class GUI extends javax.swing.JFrame {
             i++;
             }
 
-        }
+        }*/
         
     }
 

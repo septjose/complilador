@@ -21,6 +21,7 @@ public class AnalizadorLexico {
     String renglonesCodigo[] = null;
     String tokenArray[] = null;
     int i = 0;
+    boolean lexicoCorrecto = true;
     
     ArchivoAleatorio aA = new ArchivoAleatorio();
     ArrayList<ArrayList<String>> entrada = new ArrayList<>();
@@ -47,8 +48,11 @@ public class AnalizadorLexico {
             }
         }
         
+        if(lexicoCorrecto){
+        
         entrada.get(numRenglonActual-1).add("$");
         new AnalizadorSintactico(entrada);
+        }
     }
 
     public void analizar(String token) {
@@ -67,7 +71,7 @@ public class AnalizadorLexico {
             tokenValido = true;
             hash.hash(token);
 
-            if (token.equalsIgnoreCase("int") || token.equalsIgnoreCase("double") || token.equalsIgnoreCase("float") || token.equalsIgnoreCase("String") || token.equalsIgnoreCase("boolean")) 
+            if (token.equalsIgnoreCase("int") || token.equalsIgnoreCase("double") || token.equalsIgnoreCase("float") || token.equalsIgnoreCase("String") || token.equalsIgnoreCase("boolean") || token.equalsIgnoreCase("true") || token.equalsIgnoreCase("false")) 
             {
                 if (token.equalsIgnoreCase("int")) {
                     CompiladorVerano.interfaz.tabla(new TablaSimbolos(token, "", "4", "", "PR", ""));
@@ -320,6 +324,7 @@ public class AnalizadorLexico {
         if (!tokenValido && !auxCadena && !token.equalsIgnoreCase("")) {
             error = "Error en la línea: " + numRenglonActual +"; Token: " +token;
             CompiladorVerano.interfaz.error(error);
+            lexicoCorrecto = false;
             //System.out.println("Error en linea "+ numRenglonActual);
         }
     }

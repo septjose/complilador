@@ -142,7 +142,7 @@ public class AnalizadorSintactico {
     private int renglon;            private int columna;
 
     private final String terminales[];
-
+   static boolean errorSintactico = false;
     
 
     AnalizadorSintactico(ArrayList <ArrayList <String>> entrada) {
@@ -165,8 +165,8 @@ public class AnalizadorSintactico {
         this.pila.push(this.Matriz[1][0]);
         //System.out.println(this.pila + "-------------------------" + this.entrada.get(0));
         CompiladorVerano.interfaz.tablaTraza(pila, entrada.get(0));
-        //while (!this.pila.lastElement().equals("$")) {
-        while (!this.pila.isEmpty()) {
+        while (!this.pila.lastElement().equals("$")) {
+        //while (!this.pila.isEmpty()) {
             if (terminal(this.pila.lastElement()) || this.pila.lastElement().equals("$")) {              
                 if (this.pila.lastElement().equals(this.entrada.get(0).get(0))) {
                     removerDePila();
@@ -175,6 +175,7 @@ public class AnalizadorSintactico {
                 } else {
                     //System.out.println("ERROR");
                     CompiladorVerano.interfaz.error("Error Sintactico");
+                    errorSintactico = true;
                     
                     break;
                 }
@@ -184,6 +185,7 @@ public class AnalizadorSintactico {
                 CompiladorVerano.interfaz.tablaTraza(pila, entrada.get(0));
             } else {
                 CompiladorVerano.interfaz.error("Error Sintactico");
+                errorSintactico = true;
                 break;
             }
         }
@@ -222,7 +224,7 @@ public class AnalizadorSintactico {
                 break;
             }
         }
-        System.out.println();
+        //System.out.println();
         if (!this.Matriz[this.renglon][this.columna].equals("404")) {
             existe = true;
         }
